@@ -111,6 +111,19 @@ public class ClaimManagementRestClient extends RestBaseClient {
         }
     }
 
+    public void updateClaim (String dialectId, String claimId, String requestBody) {
+
+            String endPointUrl = serverBasePath + CLAIM_DIALECTS_ENDPOINT_URI + PATH_SEPARATOR + dialectId +
+                    CLAIMS_ENDPOINT_URI + PATH_SEPARATOR + claimId;
+            String jsonRequestBody = toJSONString(requestBody);
+            try (CloseableHttpResponse response = getResponseOfHttpPut(endPointUrl, jsonRequestBody, getHeaders())) {
+                Assert.assertEquals(response.getStatusLine().getStatusCode(), HttpServletResponse.SC_OK,
+                        "Claim update failed");
+            } catch (IOException e) {
+                Assert.fail("Error occurred while updating the claim.");
+            }
+    }
+
     private Header[] getHeaders() {
 
         Header[] headerList = new Header[2];
